@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Formular Carte</title>
+</head>
+<body>
+<h1 th:text="${book.id == null ? 'Adaugă o carte nouă' : 'Editează cartea'}"></h1>
+
+<form th:action="@{/books}" th:object="${book}" method="post">
+    <input type="hidden" th:field="*{id}" />
+
+    <div>
+        <label>Titlu:</label><br>
+        <input type="text" th:field="*{title}" />
+        <span th:if="${#fields.hasErrors('title')}" th:errors="*{title}" style="color:red"></span>
+    </div>
+    <br>
+
+    <div>
+        <label>ISBN:</label><br>
+        <input type="text" th:field="*{isbn}" />
+        <span th:if="${#fields.hasErrors('isbn')}" th:errors="*{isbn}" style="color:red"></span>
+    </div>
+    <br>
+
+    <button type="submit" style="padding:10px; background-color:#008CBA; color:white; border:none; cursor:pointer;">Salvează</button>
+</form>
+
+<br>
+<a href="/books">Înapoi la listă</a>
+</body>
+</html>

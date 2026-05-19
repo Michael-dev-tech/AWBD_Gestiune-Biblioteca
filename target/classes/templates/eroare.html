@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Eroare</title>
+</head>
+<body style="text-align: center; margin-top: 50px; font-family: Arial, sans-serif;">
+<h1 style="color: #e74c3c;">⚠️ Hopa! Ceva nu a funcționat cum trebuie.</h1>
+
+<h3>Detalii tehnice:</h3>
+<p th:text="${mesajEroare}" style="color: gray;"></p>
+
+<br><br>
+<a href="/books" style="padding: 10px 20px; background-color: #3498db; color: white; text-decoration: none; border-radius: 5px;">
+    Întoarce-te la siguranță (Acasă)
+</a>
+</body>
+</html>

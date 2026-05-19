@@ -1,0 +1,11 @@
+spring:
+  profiles:
+    active: test
+
+# Configurarea pentru Cerința de Logging
+logging:
+  level:
+    root: INFO
+    com.facultate.biblioteca: DEBUG
+  file:
+    name: logs/biblioteca-erori.log
