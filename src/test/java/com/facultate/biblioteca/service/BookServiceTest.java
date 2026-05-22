@@ -40,6 +40,6 @@ public class BookServiceTest {
 
 
         assertEquals(2, books.size(), "Ar trebui să găsim exact 2 cărți");
-        assertEquals("Cartea de Test 1", books.get(0).getTitle(), "Titlul primei cărți trebuie să se potrivească");
+        assertEquals("Cartea de Test 1", books.getFirst().getTitle(), "Titlul primei cărți trebuie să se potrivească");
     }
 }
