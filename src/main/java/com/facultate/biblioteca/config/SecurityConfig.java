@@ -16,7 +16,13 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable()) // Dezactivăm CSRF pentru testare
                 .authorizeHttpRequests(auth -> auth
                         // Am adăugat aici "/swagger-ui/**" și "/v3/api-docs/**"
-                        .requestMatchers("/books", "/books/**", "/api/**", "/login", "/css/**", "/js/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                        .requestMatchers("/books", "/books/**", "/api/**", "/login", "/css/**", "/js/**", "/swagger-ui/**", "/v3/api-docs/**",
+                                "/author/**", "/author/*", "/author",
+                                "/category/**", "/category/*", "/category",
+                                "/loan/**", "/loan/*", "/loan",
+                                "/role/**", "/role/*", "/role",
+                                "/userprofile/**", "/userprofile/*", "/userprofile",
+                                "/user/**", "/user/*", "/user").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(login -> login
