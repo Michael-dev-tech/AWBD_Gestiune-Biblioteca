@@ -13,6 +13,17 @@ Aplicația este dezvoltată în Java, folosind framework-ul Spring Boot pentru b
 * Springdoc OpenAPI (pentru documentația API-ului)
 * Spring Boot Validation (pentru verificarea datelor introduse de utilizator)
 
+## Funcționalități
+
+- CRUD pentru entitățile aplicației
+- Căutare cărți după titlu
+- Paginare și sortare
+- Validare date introduse
+- Tratarea excepțiilor
+- Logging
+- Autentificare și autorizare
+- Parole criptate cu BCrypt
+
 ## De ce ai nevoie pentru a rula proiectul
 
 * Java Development Kit (JDK) versiunea 25 instalat pe calculatorul tău.
@@ -22,9 +33,65 @@ Aplicația este dezvoltată în Java, folosind framework-ul Spring Boot pentru b
 După ce aplicația a pornit și vezi mesajul de confirmare în consolă, deschide un browser și navighează la:
 http://localhost:8080
 
-Nume de utilizator: user
+## Funcționalități
 
-Parola: Este generată automat de fiecare dată când pornești serverul. O poți găsi în consola din IntelliJ (caută un mesaj care conține textul "Using generated security password" urmat de un cod).
+- CRUD pentru entitățile aplicației
+- Căutare cărți după titlu
+- Paginare și sortare
+- Validare date introduse
+- Tratarea excepțiilor
+- Logging
+- Autentificare și autorizare
+- Parole criptate cu BCrypt
+
+## Modelul de date
+
+Entități:
+
+- Book
+- Author
+- Category
+- Loan
+- User
+- Role
+- UserProfile
+
+### Relații
+
+- OneToOne
+    - User → UserProfile
+
+- OneToMany / ManyToOne
+    - User → Loan
+    - Book → Loan
+
+- ManyToMany
+    - Book ↔ Author
+    - Book ↔ Category
+    - User ↔ Role
+
+
+## Spring Security
+
+Aplicația utilizează:
+
+- autentificare JDBC
+- BCryptPasswordEncoder
+- login custom
+- logout
+- autorizare pe roluri
+
+Roluri:
+
+- ROLE_ADMIN
+- ROLE_USER
+
+Utilizatori de test:
+
+| Username | Password | Rol |
+|----------|----------|-----|
+| admin | admin123 | ROLE_ADMIN |
+| user | user123 | ROLE_USER |
 
 # Diagrama ER
 

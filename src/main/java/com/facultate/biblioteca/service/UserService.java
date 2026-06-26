@@ -3,6 +3,7 @@ package com.facultate.biblioteca.service;
 import com.facultate.biblioteca.model.User;
 import com.facultate.biblioteca.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,13 +13,16 @@ import java.util.List;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public User saveUser(User user) {
         LOGGER.info("Saving user with username={}", user.getUsername());
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         User savedUser = userRepository.save(user);
         LOGGER.debug("Saved user with id={}", savedUser.getId());
         return savedUser;
@@ -59,7 +63,7 @@ public class UserService {
                 });
 
         existingUser.setUsername(user.getUsername());
-        existingUser.setPassword(user.getPassword());
+        existingUser.setPassword(passwordEncoder.encode(user.getPassword()));
         existingUser.setUserProfile(user.getUserProfile());
         existingUser.setLoans(user.getLoans());
         existingUser.setRoles(user.getRoles());

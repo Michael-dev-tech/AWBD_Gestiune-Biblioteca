@@ -23,9 +23,10 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
+import org.springframework.security.crypto.password.PasswordEncoder;
 @ExtendWith(MockitoExtension.class)
 public class OtherServicesTest {
 
@@ -43,6 +44,9 @@ public class OtherServicesTest {
 
     @Mock
     private UserRepository userRepository;
+
+    @Mock
+    private PasswordEncoder passwordEncoder;
 
     @Mock
     private UserProfileRepository userProfileRepository;
@@ -156,7 +160,9 @@ public class OtherServicesTest {
     public void testUserServiceCrudMethods() {
         User user = new User();
         user.setUsername("student");
+        user.setPassword("student123");
 
+        when(passwordEncoder.encode(anyString())).thenReturn("encodedPassword");
         when(userRepository.save(user)).thenReturn(user);
         when(userRepository.findAll()).thenReturn(List.of(user));
         when(userRepository.findById(1L)).thenReturn(Optional.of(user));

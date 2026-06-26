@@ -1,5 +1,5 @@
 package com.facultate.biblioteca.controller;
-
+import org.springframework.security.test.context.support.WithMockUser;
 import com.facultate.biblioteca.model.Book;
 import com.facultate.biblioteca.repository.BookRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,8 +10,7 @@ import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
-
-import static org.hamcrest.Matchers.hasSize;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -27,6 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
+@WithMockUser(username = "admin", authorities = {"ROLE_ADMIN"})
 public class BookControllerIntegrationTest {
 
     @Autowired
@@ -57,6 +57,7 @@ public class BookControllerIntegrationTest {
     @Test
     void validBookFormCreatesBookAndRedirects() throws Exception {
         mockMvc.perform(post("/books")
+                        .with(csrf())
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                         .param("title", "Ion")
                         .param("isbn", "978-973-46"))
@@ -64,12 +65,13 @@ public class BookControllerIntegrationTest {
                 .andExpect(redirectedUrl("/books"));
 
         assertEquals(1, bookRepository.count());
-        assertEquals("Ion", bookRepository.findAll().getFirst().getTitle());
+        assertEquals("Ion", bookRepository.findAll().get(0).getTitle());
     }
 
     @Test
     void invalidBookFormReturnsValidationErrors() throws Exception {
         mockMvc.perform(post("/books")
+                        .with(csrf())
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                         .param("title", "")
                         .param("isbn", ""))

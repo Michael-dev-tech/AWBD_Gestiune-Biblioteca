@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Adaugă categorie</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<nav style="margin-bottom:20px;">
+    <a href="/books">Cărți</a> |
+    <a href="/author">Autori</a> |
+    <a href="/category">Categorii</a> |
+
+    <form th:action="@{/logout}" method="post" style="display:inline;">
+        <button type="submit">Logout</button>
+    </form>
+</nav>
+<h1>Adaugă / Editează categorie</h1>
+
+<form th:action="@{/category}" th:object="${category}" method="post">
+
+    <input type="hidden" th:field="*{id}">
+
+    <label>Nume categorie:</label>
+    <input type="text" th:field="*{name}">
+    <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color:red;"></div>
+
+    <br><br>
+
+    <button type="submit">Salvează</button>
+</form>
+
+<br>
+<a href="/category">Înapoi la categorii</a>
+
+</body>
+
+</html>

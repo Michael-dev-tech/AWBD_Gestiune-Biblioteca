@@ -4,7 +4,10 @@ import com.facultate.biblioteca.model.Category;
 import com.facultate.biblioteca.repository.CategoryRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import java.util.List;
 
 @Slf4j
@@ -63,5 +66,14 @@ public class CategoryService {
         Category updatedCategory = categoryRepository.save(existingCategory);
         LOGGER.debug("Updated category with id={}", updatedCategory.getId());
         return updatedCategory;
+    }
+
+    public Page<Category> findPaginated(int pageNo, int pageSize, String sortField, String sortDir) {
+        Sort sort = sortDir.equalsIgnoreCase("asc")
+                ? Sort.by(sortField).ascending()
+                : Sort.by(sortField).descending();
+
+        Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
+        return categoryRepository.findAll(pageable);
     }
 }

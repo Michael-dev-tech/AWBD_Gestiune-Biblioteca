@@ -2,6 +2,7 @@ package com.facultate.biblioteca.model;
 
 import jakarta.persistence.*;
 import java.util.List;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "roles")
@@ -11,6 +12,7 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Numele rolului este obligatoriu")
     private String name; // Aici vom salva "ROLE_USER" sau "ROLE_ADMIN"
 
     @ManyToMany(mappedBy = "roles")

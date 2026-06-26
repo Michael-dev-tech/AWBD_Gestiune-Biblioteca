@@ -3,8 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <title>Formular Carte</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
+<nav style="margin-bottom:20px;">
+    <a href="/books">Cărți</a> |
+    <a href="/author">Autori</a> |
+    <a href="/category">Categorii</a> |
+
+    <form th:action="@{/logout}" method="post" style="display:inline;">
+        <button type="submit">Logout</button>
+    </form>
+</nav>
 <h1 th:text="${book.id == null ? 'Adaugă o carte nouă' : 'Editează cartea'}"></h1>
 
 <form th:action="@{/books}" th:object="${book}" method="post">
@@ -23,11 +33,35 @@
         <span th:if="${#fields.hasErrors('isbn')}" th:errors="*{isbn}" style="color:red"></span>
     </div>
     <br>
+    <div>
+        <label>Categorie:</label><br>
+        <select th:field="*{category.id}">
+            <option value="">-- Alege categoria --</option>
+            <option th:each="category : ${categories}"
+                    th:value="${category.id}"
+                    th:text="${category.name}">
+            </option>
+        </select>
+    </div>
 
+    <br>
+
+    <div>
+        <label>Autori:</label><br>
+        <div th:each="author : ${authors}">
+            <input type="checkbox"
+                   th:field="*{authors}"
+                   th:value="${author.id}">
+            <span th:text="${author.name}"></span>
+        </div>
+    </div>
+
+    <br>
     <button type="submit" style="padding:10px; background-color:#008CBA; color:white; border:none; cursor:pointer;">Salvează</button>
 </form>
 
 <br>
 <a href="/books">Înapoi la listă</a>
 </body>
+
 </html>

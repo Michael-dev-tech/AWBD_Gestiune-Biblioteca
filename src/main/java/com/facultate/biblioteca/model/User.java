@@ -2,6 +2,8 @@ package com.facultate.biblioteca.model;
 
 import jakarta.persistence.*;
 import java.util.List;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "users") // Folosim "users" pentru că "user" e un cuvânt rezervat în PostgreSQL
@@ -11,7 +13,12 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Username-ul este obligatoriu")
+    @Size(min = 3, message = "Username-ul trebuie să aibă minimum 3 caractere")
     private String username;
+
+    @NotBlank(message = "Parola este obligatorie")
+    @Size(min = 6, message = "Parola trebuie să aibă minimum 6 caractere")
     private String password;
 
     // Relația 1 la 1 cu UserProfile

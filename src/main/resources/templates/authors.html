@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Autori</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<nav style="margin-bottom:20px;">
+    <a href="/books">Cărți</a> |
+    <a href="/author">Autori</a> |
+    <a href="/category">Categorii</a> |
+
+    <form th:action="@{/logout}" method="post" style="display:inline;">
+        <button type="submit">Logout</button>
+    </form>
+</nav>
+<h1>Autori</h1>
+
+<br>
+
+<a href="/author/new">+ Adaugă autor</a>
+
+<br><br>
+
+<table border="1" cellpadding="10">
+    <thead>
+    <tr>
+        <th>
+            <a th:href="@{'/author/page/' + ${currentPage} + '?sortField=id&sortDir=' + ${reverseSortDir}}">ID</a>
+        </th>
+        <th>
+            <a th:href="@{'/author/page/' + ${currentPage} + '?sortField=name&sortDir=' + ${reverseSortDir}}">Nume</a>
+        </th>
+        <th>Acțiuni</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr th:each="author : ${authors}">
+        <td th:text="${author.id}"></td>
+        <td th:text="${author.name}"></td>
+        <td>
+            <a th:href="@{/author/edit/{id}(id=${author.id})}">Editează</a> |
+            <a th:href="@{/author/delete/{id}(id=${author.id})}"
+               onclick="return confirm('Ești sigur?')">Șterge</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<div th:if="${totalPages > 1}">
+    <br>
+    <span>Total autori: [[${totalItems}]]</span>
+    <br><br>
+
+    <a th:if="${currentPage > 1}"
+       th:href="@{'/author/page/1?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Prima</a>
+
+    <span th:each="i : ${#numbers.sequence(1, totalPages)}">
+        <a th:if="${currentPage != i}"
+           th:href="@{'/author/page/' + ${i} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">
+            [[${i}]]
+        </a>
+        <span th:unless="${currentPage != i}">[[${i}]]</span>
+    </span>
+
+    <a th:if="${currentPage < totalPages}"
+       th:href="@{'/author/page/' + ${totalPages} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Ultima</a>
+</div>
+
+<br>
+<a href="/books">Înapoi la cărți</a>
+
+</body>
+
+</html>

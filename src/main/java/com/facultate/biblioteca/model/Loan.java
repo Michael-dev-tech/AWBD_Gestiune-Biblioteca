@@ -2,6 +2,7 @@ package com.facultate.biblioteca.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "loans")
@@ -19,7 +20,10 @@ public class Loan {
     @JoinColumn(name = "book_id")
     private Book book;
 
+    @NotNull(message = "Data împrumutului este obligatorie")
     private LocalDate loanDate;
+
+    @NotNull(message = "Data returnării este obligatorie")
     private LocalDate returnDate;
 
     public Loan() {}

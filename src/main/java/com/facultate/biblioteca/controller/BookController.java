@@ -10,7 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
+import com.facultate.biblioteca.service.AuthorService;
+import com.facultate.biblioteca.service.CategoryService;
 import java.util.List;
 
 @Controller
@@ -19,9 +20,15 @@ public class BookController {
 
     private static final Logger logger = LoggerFactory.getLogger(BookController.class);
     private final BookService bookService;
+    private final AuthorService authorService;
+    private final CategoryService categoryService;
 
-    public BookController(BookService bookService) {
+    public BookController(BookService bookService,
+                          AuthorService authorService,
+                          CategoryService categoryService) {
         this.bookService = bookService;
+        this.authorService = authorService;
+        this.categoryService = categoryService;
     }
 
     // Rutele pentru Paginare și Sortare
@@ -61,14 +68,19 @@ public class BookController {
     @GetMapping("/new")
     public String showAddForm(Model model) {
         model.addAttribute("book", new Book());
+        model.addAttribute("authors", authorService.getAllAuthors());
+        model.addAttribute("categories", categoryService.getAllCategories());
         return "add-book";
     }
 
     @PostMapping
-    public String saveBook(@Valid @ModelAttribute("book") Book book, BindingResult result) {
+    public String saveBook(@Valid @ModelAttribute("book") Book book, BindingResult result, Model model) {
         if (result.hasErrors()) {
+            model.addAttribute("authors", authorService.getAllAuthors());
+            model.addAttribute("categories", categoryService.getAllCategories());
             return "add-book";
         }
+
         bookService.saveBook(book);
         return "redirect:/books";
     }
@@ -76,6 +88,8 @@ public class BookController {
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable Long id, Model model) {
         model.addAttribute("book", bookService.getBookById(id));
+        model.addAttribute("authors", authorService.getAllAuthors());
+        model.addAttribute("categories", categoryService.getAllCategories());
         return "add-book";
     }
 

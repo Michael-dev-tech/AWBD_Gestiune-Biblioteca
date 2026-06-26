@@ -4,6 +4,10 @@ import com.facultate.biblioteca.model.Author;
 import com.facultate.biblioteca.repository.AuthorRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import java.util.List;
 
@@ -63,5 +67,14 @@ public class AuthorService {
         Author updatedAuthor = authorRepository.save(existingAuthor);
         LOGGER.debug("Updated author with id={}", updatedAuthor.getId());
         return updatedAuthor;
+    }
+
+    public Page<Author> findPaginated(int pageNo, int pageSize, String sortField, String sortDir) {
+        Sort sort = sortDir.equalsIgnoreCase("asc")
+                ? Sort.by(sortField).ascending()
+                : Sort.by(sortField).descending();
+
+        Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
+        return authorRepository.findAll(pageable);
     }
 }

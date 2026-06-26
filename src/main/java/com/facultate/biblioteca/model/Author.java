@@ -1,6 +1,8 @@
 package com.facultate.biblioteca.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+
 import java.util.List;
 
 @Entity
@@ -11,6 +13,7 @@ public class Author {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Numele autorului este obligatoriu")
     private String name;
 
     // Relația @ManyToMany (O carte poate avea mai mulți autori, un autor are mai multe cărți)

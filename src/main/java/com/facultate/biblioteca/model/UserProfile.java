@@ -1,6 +1,8 @@
 package com.facultate.biblioteca.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "user_profiles")
@@ -10,7 +12,11 @@ public class UserProfile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Numele este obligatoriu")
     private String fullName;
+
+    @Email(message = "Email invalid")
+    @NotBlank(message = "Email-ul este obligatoriu")
     private String email;
     private String phoneNumber;
 
